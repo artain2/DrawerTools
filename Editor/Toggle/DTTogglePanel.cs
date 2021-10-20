@@ -18,19 +18,21 @@ namespace DrawerTools
 
         public DTTogglePanel(params string[] names) => Prepare(18, names.Select(x => new GUIContent(x)).ToArray(), null);
 
-        public DTTogglePanel(string[] names, int selected_panel) => Prepare(18, names.Select(x => new GUIContent(x)).ToArray(), null, selected_panel);
+        public DTTogglePanel(IEnumerable<string> names, int selected_panel) => Prepare(18, names.Select(x => new GUIContent(x)).ToArray(), null, selected_panel);
 
-        public DTTogglePanel(string[] names, Action<int> callback) => Prepare(18, names.Select(x => new GUIContent(x)).ToArray(), callback);
+        public DTTogglePanel(IEnumerable<string> names, Action<int> callback) => Prepare(18, names.Select(x => new GUIContent(x)).ToArray(), callback);
 
-        public DTTogglePanel(string[] names, Action<int> callback, float height) => Prepare(height, names.Select(x => new GUIContent(x)).ToArray(), callback);
+        public DTTogglePanel(IEnumerable<string> names, Action<int> callback, float height) => Prepare(height, names.Select(x => new GUIContent(x)).ToArray(), callback);
 
-        public DTTogglePanel(string[] names, Action<int> callback, float height, int selected_panel) => Prepare(height, names.Select(x => new GUIContent(x)).ToArray(), callback, selected_panel);
+        public DTTogglePanel(IEnumerable<string> names, Action<int> callback, float height, int selected_panel) => Prepare(height, names.Select(x => new GUIContent(x)).ToArray(), callback, selected_panel);
 
-        public DTTogglePanel(Texture[] textures, Action<int> callback, float height) => Prepare(height, textures.Select(x => new GUIContent(x)).ToArray(), callback);
+        public DTTogglePanel(IEnumerable<Texture> textures, Action<int> callback, float height) => Prepare(height, textures.Select(x => new GUIContent(x)).ToArray(), callback);
 
-        public DTTogglePanel(IconType[] icons, Action<int> callback, float height) => Prepare(height, icons.Select(x => new GUIContent(DTIcons.GetIcon(x))).ToArray(), callback);
+        public DTTogglePanel(IEnumerable<Texture> textures, Action<int> callback, float height, int selected_panel) => Prepare(height, textures.Select(x => new GUIContent(x)).ToArray(), callback, selected_panel);
 
-        public DTTogglePanel(IconType[] icons, Action<int> callback, float height, int selected_panel) => Prepare(height, icons.Select(x => new GUIContent(DTIcons.GetIcon(x))).ToArray(), callback, selected_panel);
+        public DTTogglePanel(IEnumerable<IconType> icons, Action<int> callback, float height) => Prepare(height, icons.Select(x => new GUIContent(DTIcons.GetIcon(x))).ToArray(), callback);
+
+        public DTTogglePanel(IEnumerable<IconType> icons, Action<int> callback, float height, int selected_panel) => Prepare(height, icons.Select(x => new GUIContent(DTIcons.GetIcon(x))).ToArray(), callback, selected_panel);
 
         public void AddButton(GUIContent content)
         {
@@ -38,16 +40,16 @@ namespace DrawerTools
             DTToggleButton toggle;
             if (content.image == null)
             {
-                toggle = new DTToggleButton(content.text, (val) => 
-                { 
-                    ListenButtonClicked(id); 
+                toggle = new DTToggleButton(content.text, (val) =>
+                {
+                    ListenButtonClicked(id);
                 });
             }
             else
             {
-                toggle = new DTToggleButton(content.image, (val) => 
-                { 
-                    ListenButtonClicked(id); 
+                toggle = new DTToggleButton(content.image, (val) =>
+                {
+                    ListenButtonClicked(id);
                 });
             }
 
