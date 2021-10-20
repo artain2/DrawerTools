@@ -1,10 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEditor;
-using System;
 
 namespace DrawerTools
 {
-
     public class DTVector2 : DTProperty
     {
         public override event Action OnValueChanged;

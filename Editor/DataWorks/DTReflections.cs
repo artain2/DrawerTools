@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System;
 using System.Reflection;
-using System;
+using System.Linq;
 
 namespace DrawerTools
 {
@@ -95,7 +95,6 @@ namespace DrawerTools
                     }
                 }
             }
-
             return null;
         }
 

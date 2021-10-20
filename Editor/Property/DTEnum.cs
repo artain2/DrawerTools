@@ -1,9 +1,8 @@
-﻿using UnityEditor;
-using System;
+﻿using System;
+using UnityEditor;
 
 namespace DrawerTools
 {
-
     public class DTEnum<T> : DTProperty where T : Enum
     {
         public override event Action OnValueChanged;

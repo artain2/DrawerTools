@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEditor;
-using System;
 
 namespace DrawerTools
 {
@@ -12,7 +12,6 @@ namespace DrawerTools
 
         public Color Value { get => value; set => SetValue(value); }
         public override object UncastedValue { get => Value; set => SetValue((Color)value); }
-
 
         public DTColor(string text) : base(text) { }
 

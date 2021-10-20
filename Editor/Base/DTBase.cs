@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Linq;
+﻿using System;
 using System.Reflection;
-using System;
+using System.Linq;
+using UnityEngine;
 using UnityEditor;
 
 namespace DrawerTools
@@ -16,6 +16,7 @@ namespace DrawerTools
         public bool Active { get => active; set => SetActive(value); }
         public virtual EnableInType EnableIn { get; set; }
         public virtual bool Disabled { get; set; }
+
         public void Draw()
         {
             if (!Active)
@@ -23,8 +24,8 @@ namespace DrawerTools
                 return;
             }
             if (EnableIn == EnableInType.EditorOnly && Application.isPlaying || EnableIn == EnableInType.GameOnly && !Application.isPlaying)
-            { 
-                return; 
+            {
+                return;
             }
 
             OnBeforeDraw?.Invoke();

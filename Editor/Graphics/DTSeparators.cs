@@ -13,6 +13,7 @@ namespace DrawerTools
                 TextureCreator.CreateStyle(Color.gray), 
                 GUILayout.Width(3), 
                 GUILayout.Height(props_count * 18)); // TODO заменить на итеративную отрисовку кэшированных текстур
+
         static GUIStyle CachedGet(ref GUIStyle cache, Color to_create)
         {
             if (cache == null)

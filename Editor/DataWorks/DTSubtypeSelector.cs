@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System;
+using UnityEditor;
 
 namespace DrawerTools
 {

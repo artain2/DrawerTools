@@ -1,5 +1,6 @@
-﻿using UnityEditor;
-using System;
+﻿using System;
+using UnityEditor;
+
 using Object = UnityEngine.Object;
 
 namespace DrawerTools

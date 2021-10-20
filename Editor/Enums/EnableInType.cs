@@ -1,5 +1,4 @@
-﻿
-namespace DrawerTools
+﻿namespace DrawerTools
 {
     public enum EnableInType
     {

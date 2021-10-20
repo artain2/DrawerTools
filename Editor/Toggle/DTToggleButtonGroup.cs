@@ -58,7 +58,6 @@ namespace DrawerTools
             Group.Add(btn);
             btn.SetPressed(false, false);
             btn.OnPressedChanged += val => Switch(val, btn);
-
         }
 
         void Switch(bool val, DTToggleButton sender)

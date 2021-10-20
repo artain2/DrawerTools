@@ -4,7 +4,6 @@ using System;
 
 namespace DrawerTools
 {
-
     public class DTInt : DTProperty
     {
 

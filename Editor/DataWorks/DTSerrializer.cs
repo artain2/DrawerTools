@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using UnityEditor;
 
 namespace DrawerTools
 {

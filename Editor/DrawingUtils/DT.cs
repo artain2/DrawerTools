@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using System;
+
 using Object = UnityEngine.Object;
 
 namespace DrawerTools
