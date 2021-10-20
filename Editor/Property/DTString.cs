@@ -13,11 +13,11 @@ namespace DrawerTools
 
         public override object UncastedValue { get => Value; set => SetValue((string)value); }
 
-        public void SetValue(string value)
+        public void SetValue(string value, bool invokeEvent = true)
         {
             var prev = this.value;
             this.value = value;
-            if (prev != value)
+            if (prev != value && invokeEvent)
             {
                 OnValueChanged?.Invoke();
             }
@@ -30,6 +30,18 @@ namespace DrawerTools
         protected override void AtDraw()
         {
             Value = EditorGUILayout.TextField(content, Value, Sizer.Options);
+        }
+
+        public DTString AddStringChangeCallback(Action<string> callback)
+        {
+            // TODO cace callbacks to removce them later in RemoveIntChangeListener
+            AddChangeListener(() => callback(value));
+            return this;
+        }
+
+        public DTString RemoveBoolChangeCallback(Action<string> callback)
+        {
+            throw new NotImplementedException(); // TODO
         }
     }
 

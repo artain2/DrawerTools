@@ -23,6 +23,10 @@ namespace DrawerTools
         public string Text { get => Name; set => Name = value; }
 
         public DTLabel(string text) : base(text) { }
+        public DTLabel(string text, float width) : base(text)
+        {
+            SetWidth(width);
+        }
 
         protected override void AtDraw()
         {

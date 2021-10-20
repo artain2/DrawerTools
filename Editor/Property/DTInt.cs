@@ -18,16 +18,17 @@ namespace DrawerTools
         public int MinSliderValue { get; private set; }
         public int MaxSliderValue { get; private set; }
 
-        public void SetValue(int value)
+        public void SetValue(int value, bool invokeEvent = true)
         {
             var prev = this.value;
             this.value = value;
-            if (prev != value)
+            if (prev != value && invokeEvent)
                 OnValueChanged?.Invoke();
         }
 
         public DTInt(string text) : base(text) { }
         public DTInt(string text, int val) : base(text) => Value = val;
+        public DTInt(int val) : this("", val) { }
 
         public DTInt AddIntChangeListener(Action<int> callback)
         {
