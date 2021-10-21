@@ -11,7 +11,7 @@ namespace DrawerTools
 
         public bool Pressed { get; protected set; } = false;
 
-        public DTToggleButton(string lbl, Action<bool> onChange) : base(lbl)
+        public DTToggleButton(string lbl, Action<bool> onChange, string tooltip = null) : base(lbl, tooltip)
         {
             if (onChange != null)
             {
@@ -19,7 +19,7 @@ namespace DrawerTools
             }
         }
 
-        public DTToggleButton(Texture tex, Action<bool> onChange) : base(tex)
+        public DTToggleButton(Texture tex, Action<bool> onChange, string tooltip = null) : base(tex, tooltip)
         {
             if (onChange != null)
             {

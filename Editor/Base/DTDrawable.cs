@@ -24,7 +24,8 @@ namespace DrawerTools
         public virtual Vector2 Size { get => Sizer.Size; set => SetSize(value); }
         public virtual float RectSize { set => SetRectSize(value); }
         public string Name { get => content.text; set => SetName(value); }
-        public Texture Icon { get => content.image; set => content = new GUIContent(value); }
+        public string Tooltip { get => content.tooltip; set => content.tooltip = value; }
+        public Texture Icon { get => content.image; set => content = new GUIContent(value, Tooltip); }
 
         public DTDrawable SetRectSize(float size)
         {
@@ -55,7 +56,7 @@ namespace DrawerTools
 
         public virtual DTDrawable SetName(string name)
         {
-            content = new GUIContent(name);
+            content = new GUIContent(name, Tooltip);
             return this;
         }
 
@@ -66,7 +67,15 @@ namespace DrawerTools
 
         protected GUIContent content = new GUIContent("");
         public DTDrawable() => Name = "";
-        public DTDrawable(Texture tex) => Icon = tex;
-        public DTDrawable(string text) => Name = text;
+        public DTDrawable(Texture tex, string tooltip = null)
+        {
+            Icon = tex;
+            Tooltip = tooltip;
+        }
+        public DTDrawable(string text, string tooltip = null)
+        {
+            Name = text;
+            Tooltip = tooltip;
+        }
     }
 }

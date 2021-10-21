@@ -16,18 +16,15 @@ namespace DrawerTools
         public bool Enabled { get => enabled; set => SetEnabled(value); }
         public bool Highlighted { get => highlighted; set => SetHighlighted(value); }
 
-
-        public ButtonDrawerBase(string lbl) : base(lbl) { }
-
-        public ButtonDrawerBase(Texture tex) : base(tex) { }
-
-        public ButtonDrawerBase(Texture tex, Action onClick) : base(tex)
+        public ButtonDrawerBase(string lbl, string tooltip = null) : base(lbl, tooltip) { }
+        public ButtonDrawerBase(Texture tex, string tooltip = null) : base(tex, tooltip) { }
+        public ButtonDrawerBase(Texture tex, Action onClick, string tooltip = null) : base(tex, tooltip)
         {
             MainClickAction = onClick;
             OnClick += (val) => onClick?.Invoke();
         }
 
-        public ButtonDrawerBase(string text, Action onClick) : base(text)
+        public ButtonDrawerBase(string text, Action onClick, string tooltip = null) : base(text, tooltip)
         {
             MainClickAction = onClick;
             if (onClick != null)
