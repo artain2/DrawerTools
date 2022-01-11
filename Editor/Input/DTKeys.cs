@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace DrawerTools
 {
-    public class DTKeys
+    public static class DTKeys
     {
         public static bool IsControl
         {
@@ -28,7 +26,7 @@ namespace DrawerTools
                 }
             }
         }
-        public static bool IsShiht
+        public static bool IsShift
         {
             get
             {
@@ -44,6 +42,13 @@ namespace DrawerTools
         {
             Event e = Event.current;
             bool pressed = e != null && e.keyCode == key;
+            return pressed;
+        }
+
+        public static bool IsKeyReleased(KeyCode key)
+        {
+            Event e = Event.current;
+            bool pressed = e != null && e.keyCode == key && e.type == EventType.KeyUp;
             return pressed;
         }
     }
