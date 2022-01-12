@@ -83,10 +83,12 @@ namespace DrawerTools
             }
         }
 
-        public static List<string> GetAllFilePathsInFolder(string assetsFolder)
+        public static string[] GetAllFilePathsInFolder(string assetsFolder)
         {
             var paths = Directory.GetFiles(assetsFolder);
-            return paths.Where(x => !x.Contains(".meta")).ToList();
+            return paths.Where(x => !x.Contains(".meta")).ToArray();
         }
+
+        public static string[] GetAllSubfolders(string root) => Directory.GetDirectories(root);
     }
 }

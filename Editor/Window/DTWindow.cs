@@ -82,6 +82,7 @@ namespace DrawerTools
             return window as T;
         }
 
+        //[MenuItem ("Window/My Window")]
         public static T Get<T>() where T : DTWindow => GetWindow(typeof(T)) as T;
 
     }
