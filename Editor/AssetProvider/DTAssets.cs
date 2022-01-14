@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
-
 using Object = UnityEngine.Object;
 
 namespace DrawerTools
@@ -23,6 +22,7 @@ namespace DrawerTools
                     assets.Add(asset);
                 }
             }
+
             return assets;
         }
 
@@ -38,7 +38,32 @@ namespace DrawerTools
             return asset;
         }
 
-        public static bool TryFindAsset<T>(string name, string ext, out T result, params string[] someRootFolders) where T : Object
+        public static List<T> LoadAllAssetsInFolder<T>(string root) where T : Object
+        {
+            var paths = DTFolders.GetAllFilePathsInFolder(root);
+            var result = new List<T>();
+            var reqType = typeof(T);
+            foreach (var path in paths)
+            {
+                var itemType = AssetDatabase.GetMainAssetTypeAtPath(path);
+                bool possibleComponent = itemType.IsEquivalentTo(typeof(GameObject)) &&
+                                         reqType.IsSubclassOf(typeof(MonoBehaviour));
+                if (!possibleComponent)
+                {
+                    if (!(itemType.IsSubclassOf(reqType) || itemType == reqType))
+                        continue;
+                }
+
+                var loaded = AssetDatabase.LoadAssetAtPath<T>(path);
+                if (loaded != null)
+                    result.Add(loaded);
+            }
+
+            return result;
+        }
+
+        public static bool TryFindAsset<T>(string name, string ext, out T result, params string[] someRootFolders)
+            where T : Object
         {
             result = null;
             var allPaths = AssetDatabase.GetAllAssetPaths();
@@ -49,6 +74,7 @@ namespace DrawerTools
                 {
                     continue;
                 }
+
                 bool rootMatch = true;
                 foreach (var root in someRootFolders)
                 {
@@ -58,13 +84,16 @@ namespace DrawerTools
                         break;
                     }
                 }
+
                 if (!rootMatch)
                 {
                     continue;
                 }
+
                 result = AssetDatabase.LoadAssetAtPath<T>(path);
                 return true;
             }
+
             return false;
         }
 
@@ -129,6 +158,7 @@ namespace DrawerTools
         {
             return AssetDatabase.GetAssetPath(obj);
         }
+
         public static string GetAssetFolder(Object obj)
         {
             var path = AssetDatabase.GetAssetPath(obj);
@@ -151,8 +181,8 @@ namespace DrawerTools
                     return true;
                 }
             }
+
             return false;
         }
     }
-
 }

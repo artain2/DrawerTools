@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ namespace DrawerTools
 
         public DTGrid AddItems<T>(params T[] items) where T : DTDrawable => AddItems(items as IList<T>);
 
-        public DTGrid AddItems<T>(IList<T> items) where T : DTDrawable
+        public DTGrid AddItems<T>(IEnumerable<T> items) where T : DTDrawable
         {
             foreach (var item in items)
             {
