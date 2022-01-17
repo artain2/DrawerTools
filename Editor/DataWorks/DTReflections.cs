@@ -85,6 +85,19 @@ namespace DrawerTools
 
         public static Type GetUnityType(string name)
         {
+            switch (name)
+            {
+                case "string":
+                    return typeof(string);
+                case "int":
+                    return typeof(int);
+                case "float":
+                    return typeof(float);
+                case "double":
+                    return typeof(double);
+                case "char":
+                    return typeof(char);
+            }
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 foreach (Type type in assembly.GetTypes())

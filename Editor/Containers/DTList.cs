@@ -3,94 +3,67 @@ using System.Collections.Generic;
 
 namespace DrawerTools
 {
-    public abstract class DTList<T, D> : DTPanel where T : new() where D : DTProperty
+    public class DTList<T> : DTPanel where T : DTDrawable
     {
         public class Node : DTBase
         {
-            public event Action<Node> OnValueChange;
-
-            private Func<D> nodeConstructor;
-
-            public int ID { get; set; }
-            public T Value { get; private set; }
-            public D Drawer { get; private set; }
+            public T Item { get; private set; }
             public DTButton RemoveButton { get; private set; }
             public DTButton UpButton { get; private set; }
 
-            public Node(T value, Action<Node> atRemove, Action<Node> atUp, Func<D> nodeConstructor)
+            public Node(T value, Action<Node> atRemove, Action<Node> atUp)
             {
-                this.nodeConstructor = nodeConstructor;
-                Value = value;
-                Drawer = nodeConstructor();
-                Drawer.UncastedValue = value;
-                Drawer.OnValueChanged += AtDrawerValueChange;
+                Item = value;
                 RemoveButton = new DTButton(FontIconType.Fire, () => atRemove(this)).SetRectSize(20) as DTButton;
                 UpButton = new DTButton(FontIconType.StepUp, () => atUp(this)).SetRectSize(20) as DTButton;
             }
 
-            private void AtDrawerValueChange()
-            {
-                Value = (T)Drawer.UncastedValue;
-                OnValueChange?.Invoke(this);
-            }
-
-            public Node SetID(int id)
-            {
-                ID = id;
-                return this;
-            }
-
             protected override void AtDraw()
             {
-                DTScope.Begin(Scope.Horizontal);
-                UpButton.Draw();
-                RemoveButton.Draw();
+                using (DTScope.Horizontal)
+                {
+                    UpButton.Draw();
+                    RemoveButton.Draw();
 
-                DTScope.Begin(Scope.Vertical);
-                Drawer.Draw();
-                DTScope.End(Scope.Vertical);
-
-                DTScope.End(Scope.Horizontal);
+                    using (DTScope.Vertical)
+                    {
+                        Item.Draw();
+                    }
+                }
             }
         }
+
+        public event Action OnListChange;
+        
+        public List<T> ItemsList { get; private set; }
 
         private DTButton addButton;
         private DTExpandToggle expandBtn = new DTExpandToggle();
 
-        protected List<Node> nodesList;
-        protected Func<D> nodeConstructor;
+        protected List<Node> nodesList = new List<Node>();
+        private Func<T> _drawerCtor;
 
-        public List<T> ValuesList { get; private set; }
-        public Func<T> ItemConstructor { get; set; } = () => new T();
         public new string Name { get; set; }
 
-        public DTList(IDTPanel parent, Func<D> nodeConstructor) : base(parent)
+        public DTList(IDTPanel parent) : base(parent)
         {
-            this.nodeConstructor = nodeConstructor;
             addButton = new DTButton(FontIconType.Plus, AtAdd).SetRectSize(30) as DTButton;
         }
 
-        public DTList<T, D> SetList(List<T> originalList)
+        public DTList<T> SetList(List<T> srcList, Func<T> drawerCtor)
         {
-            ValuesList = originalList;
-            Repaint();
+            nodesList.Clear();
+            ItemsList = srcList;
+            _drawerCtor = drawerCtor;
+            foreach (var src in srcList)
+            {
+                nodesList.Add(CreateNode(src));
+            }
             return this;
         }
 
-        public void Repaint()
-        {
-            nodesList = new List<Node>();
-            for (int i = 0; i < ValuesList.Count; i++)
-                AddNode(i);
-        }
 
-        public DTList<T, D> SetItemConstructor(Func<T> ctor)
-        {
-            ItemConstructor = ctor;
-            return this;
-        }
-
-        public new DTList<T, D> SetName(string name)
+        public new DTList<T> SetName(string name)
         {
             Name = name;
             return this;
@@ -98,21 +71,18 @@ namespace DrawerTools
 
         protected override void AtDraw()
         {
-            DTScope.Begin(Scope.Vertical);
+            using (DTScope.Vertical)
+            {
+                using (DTScope.Horizontal)
+                {
+                    expandBtn.Draw();
+                    DT.Label($"{Name} [{nodesList.Count}]");
+                }
 
-            // Title
-            DTScope.Begin(Scope.Horizontal);
-            expandBtn.Draw();
-            DT.Label($"{Name} [{ValuesList.Count}]");
-            DTScope.End(Scope.Horizontal);
-
-            if (expandBtn.Pressed)
-                DrawContent();
-
-            DTScope.End(Scope.Vertical);
+                if (expandBtn.Pressed)
+                    DrawContent();
+            }
         }
-
-        protected virtual void AtNodeValueChanged(Node sender) { }
 
         private void DrawContent()
         {
@@ -123,48 +93,43 @@ namespace DrawerTools
             addButton.Draw();
         }
 
-        private void AddNode(int id)
-        {
-            var node = new Node(ValuesList[id], AtRemove, AtMoveUp, nodeConstructor).SetID(id);
-            node.OnValueChange += AtNodeValueChanged;
-            nodesList.Add(node);
-        }
 
         private void AtMoveUp(Node node)
         {
-            int id = node.ID;
+            int id = nodesList.IndexOf(node);
             if (id == 0)
                 return;
 
-            var tmpVal = ValuesList[id - 1];
-            ValuesList.RemoveAt(id - 1);
-            ValuesList.Insert(id, tmpVal);
+            var tmpVal = nodesList[id - 1];
+            nodesList[id - 1] = node;
+            nodesList[id] = tmpVal;
 
-            var tmpNode = nodesList[id - 1];
-            nodesList.RemoveAt(id - 1);
-            nodesList.Insert(id, tmpNode);
-
-            ValidateID();
+            var tmpSrc = ItemsList[id - 1];
+            ItemsList[id - 1] = node.Item;
+            ItemsList[id] = tmpSrc;
+            OnListChange?.Invoke();
         }
 
         private void AtRemove(Node node)
         {
-            ValuesList.RemoveAt(node.ID);
-            nodesList.RemoveAt(node.ID);
-            ValidateID();
+            int id = nodesList.IndexOf(node);
+            nodesList.RemoveAt(id);
+            ItemsList.RemoveAt(id);
+            OnListChange?.Invoke();
+        }
+
+        private Node CreateNode(T item)
+        {
+            var node = new Node(item, AtRemove, AtMoveUp);
+            return node;
         }
 
         private void AtAdd()
         {
-            var created = ItemConstructor();
-            ValuesList.Add(created);
-            AddNode(ValuesList.Count - 1);
-        }
-
-        private void ValidateID()
-        {
-            for (int i = 0; i < ValuesList.Count; i++)
-                nodesList[i].SetID(i);
+            var created = _drawerCtor();
+            ItemsList.Add(created);
+            nodesList.Add(CreateNode(created));
+            OnListChange?.Invoke();
         }
     }
 }

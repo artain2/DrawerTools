@@ -13,6 +13,8 @@ namespace DrawerTools
 
         public override object UncastedValue { get => Value; set => SetValue((string)value); }
 
+        public bool IsTextArea { get; set; } = false;
+
         public void SetValue(string value, bool invokeEvent = true)
         {
             var prev = this.value;
@@ -29,7 +31,9 @@ namespace DrawerTools
 
         protected override void AtDraw()
         {
-            Value = EditorGUILayout.TextField(content, Value, Sizer.Options);
+            Value = IsTextArea ? 
+                EditorGUILayout.TextArea(Value, Sizer.Options) : 
+                EditorGUILayout.TextField(content, Value, Sizer.Options);
         }
 
         public DTString AddStringChangeCallback(Action<string> callback)
