@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEditor;
 
@@ -31,6 +33,7 @@ namespace DrawerTools
             {
                 serObj.Update();
             }
+
             EditorGUILayout.PropertyField(fieldsDict[fieldName]);
             if (andUpdate)
             {
@@ -51,10 +54,22 @@ namespace DrawerTools
         {
             foreach (var fieldName in fieldNames)
             {
+                if (fieldsDict.ContainsKey(fieldName))
+                    continue;
                 var property = serObj.FindProperty(fieldName);
                 fieldsDict.Add(fieldName, property);
             }
+
             return this;
+        }
+
+        public void SerializeAll()
+        {
+            var fields = ScriptableObject.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            var toSerialize = fields.
+                Where(x => x.IsPublic || x.GetAttribute<SerializeField>() != null).
+                Select(x=>x.Name).ToArray();
+            SerializeField(toSerialize);
         }
 
         public bool HasField(string fieldName) => fieldsDict.ContainsKey(fieldName);
@@ -67,6 +82,7 @@ namespace DrawerTools
             {
                 DrawField(item.Key, false);
             }
+
             serObj.ApplyModifiedProperties();
         }
 
@@ -81,6 +97,7 @@ namespace DrawerTools
             {
                 ScriptableObject = Activator.CreateInstance<T>();
             }
+
             serObj = new SerializedObject(ScriptableObject);
             var keys = fieldsDict.Keys.ToArray();
             fieldsDict.Clear();
