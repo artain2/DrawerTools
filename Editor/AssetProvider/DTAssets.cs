@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
@@ -111,7 +112,12 @@ namespace DrawerTools
 
         public static T LoadConfig<T>(string path) where T : Object
         {
-            var asset = AssetDatabase.LoadAssetAtPath<T>($"{path}.asset");
+            if (!Path.HasExtension(path))
+            {
+                path += ".asset";
+            }
+
+            var asset = AssetDatabase.LoadAssetAtPath<T>(path);
             return asset;
         }
 
@@ -139,9 +145,19 @@ namespace DrawerTools
             return result != null;
         }
 
-        public static void CreateConfig(string path, string fileName, ScriptableObject source)
+        public static void CreateConfig(string directory, string fileName, ScriptableObject source)
         {
-            AssetDatabase.CreateAsset(source, $"{path}/{fileName}.asset");
+            AssetDatabase.CreateAsset(source, $"{directory}/{fileName}.asset");
+        }
+
+        public static void CreateConfig(string path, ScriptableObject source)
+        {
+            if (!Path.HasExtension(path))
+            {
+                path += ".asset";
+            }
+
+            AssetDatabase.CreateAsset(source, path);
         }
 
         public static void SetDirty(Object obj)
