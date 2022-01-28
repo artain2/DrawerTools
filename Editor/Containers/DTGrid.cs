@@ -36,6 +36,19 @@ namespace DrawerTools
             return this;
         }
 
+        public DTGrid SetItems<T>(IEnumerable<T> items) where T : DTDrawable
+        {
+            Clear();
+            AddItems(items);
+            return this;
+        }
+
+        public void Clear()
+        {
+            items.Clear();
+            AtSizeChanged();
+        }
+
         public void SetItemAsLast<T>(T item) where T : DTDrawable
         {
             items.Remove(item);

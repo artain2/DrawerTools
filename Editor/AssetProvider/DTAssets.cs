@@ -145,6 +145,20 @@ namespace DrawerTools
             return result != null;
         }
 
+        public static T LoadPrefab<T>(string path) where T : Object
+        {
+            path = path.EndsWith(".prefab") ? path : path + ".prefab";
+            var asset = AssetDatabase.LoadAssetAtPath<T>(path);
+            return asset;
+        }
+
+        public static bool TryLoadPrefab<T>(string path, out T result) where T : Object
+        {
+            path = path.EndsWith(".prefab") ? path : path + ".prefab";
+            result = AssetDatabase.LoadAssetAtPath<T>(path);
+            return result != null;
+        }
+
         public static void CreateConfig(string directory, string fileName, ScriptableObject source)
         {
             AssetDatabase.CreateAsset(source, $"{directory}/{fileName}.asset");

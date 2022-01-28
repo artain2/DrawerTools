@@ -56,8 +56,6 @@ namespace DrawerTools
             }
             CheckSize();
             AtDraw();
-
-
         }
 
         private void CheckSize()
@@ -78,7 +76,7 @@ namespace DrawerTools
         {
             var window = (DTWindow)GetWindow(typeof(T));
             window.DisplayedName = window.WindowName;
-            window.Init();
+            window.AtInit();
             return window as T;
         }
 
