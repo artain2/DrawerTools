@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Sirenix.Utilities.Editor;
 using UnityEngine;
 using UnityEditor;
 using Object = UnityEngine.Object;
@@ -199,17 +200,29 @@ namespace DrawerTools
         public static bool TryFindClassAsset(Type type, out TextAsset result)
         {
             result = null;
-            var classSerchFilter = $"class {type.Name}";
-            var allScriptPaths = AssetDatabase.GetAllAssetPaths().Where(x => x.EndsWith(".cs"));
-            foreach (var csPath in allScriptPaths)
+            var classSearchFilter = $"class {type.Name}";
+            var allScriptPaths = AssetDatabase.GetAllAssetPaths().Where(x => x.EndsWith(".cs")).ToArray();
+            
+            // Certain match search
+            var matchFileName = $"{type.Name}.cs";
+            var csWithMatchName = allScriptPaths.FirstOrDefault(x => x.EndsWith(matchFileName));
+            if (csWithMatchName!=null)
             {
-                string code = System.IO.File.ReadAllText(csPath);
-
-                if (code.Contains(classSerchFilter))
+                var code = File.ReadAllText(csWithMatchName);
+                if (code.Contains(classSearchFilter))
                 {
-                    result = AssetDatabase.LoadAssetAtPath<TextAsset>(csPath);
+                    result = AssetDatabase.LoadAssetAtPath<TextAsset>(csWithMatchName);
                     return true;
                 }
+            }
+            
+            foreach (var csPath in allScriptPaths)
+            {
+                var code = File.ReadAllText(csPath);
+                if (!code.Contains(classSearchFilter)) 
+                    continue;
+                result = AssetDatabase.LoadAssetAtPath<TextAsset>(csPath);
+                return true;
             }
 
             return false;

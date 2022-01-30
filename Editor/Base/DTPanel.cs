@@ -49,6 +49,7 @@ namespace DrawerTools
                 if (!target.Sizer.ExpandsHeight || DrawScrollInExpand)
                     scroll.Begin();
             }
+
             protected void AfterDraw()
             {
                 if (!target.Sizer.ExpandsHeight || DrawScrollInExpand)
@@ -67,5 +68,10 @@ namespace DrawerTools
 
         public Vector2 GetFixedSize(float? x = null, float? y = null) => panelBeh.GetFixedSize(x, y);
 
+        public DTPanel SetExpandable(bool expandable)
+        {
+            panelBeh.DrawScrollInExpand = expandable;
+            return this;
+        }
     }
 }
