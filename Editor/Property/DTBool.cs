@@ -39,7 +39,7 @@ namespace DrawerTools
 
         protected override void AtDraw()
         {
-            Value = EditorGUILayout.Toggle(content, Value, Sizer.Options);
+            Value = EditorGUILayout.Toggle(_guiContent, Value, Sizer.Options);
         }
     }
 

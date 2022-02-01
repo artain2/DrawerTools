@@ -33,7 +33,7 @@ namespace DrawerTools
         {
             Value = IsTextArea ? 
                 EditorGUILayout.TextArea(Value, Sizer.Options) : 
-                EditorGUILayout.TextField(content, Value, Sizer.Options);
+                EditorGUILayout.TextField(_guiContent, Value, Sizer.Options);
         }
 
         public DTString AddStringChangeCallback(Action<string> callback)

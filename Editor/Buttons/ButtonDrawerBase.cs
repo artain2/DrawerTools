@@ -51,7 +51,7 @@ namespace DrawerTools
 
         protected void DrawDefaultButton()
         {
-            if (GUILayout.Button(content, Style, Sizer.Options) && Enabled)
+            if (GUILayout.Button(_guiContent, Style, Sizer.Options) && Enabled)
             {
                 ClickAction();
             }

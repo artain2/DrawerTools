@@ -53,11 +53,11 @@ namespace DrawerTools
         {
             if (drawAsSlider)
             {
-                Value = EditorGUILayout.Slider(content, Value, min, max, Sizer.Options);
+                Value = EditorGUILayout.Slider(_guiContent, Value, min, max, Sizer.Options);
             }
             else
             {
-                Value = Mathf.Clamp(EditorGUILayout.FloatField(content, Value, Sizer.Options), min, max);
+                Value = Mathf.Clamp(EditorGUILayout.FloatField(_guiContent, Value, Sizer.Options), min, max);
             }
         }
     }

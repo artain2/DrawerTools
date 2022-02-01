@@ -29,7 +29,7 @@ namespace DrawerTools
 
         protected override void AtDraw()
         {
-            Value = EditorGUILayout.ColorField(content, Value, Sizer.Options);
+            Value = EditorGUILayout.ColorField(_guiContent, Value, Sizer.Options);
         }
     }
 

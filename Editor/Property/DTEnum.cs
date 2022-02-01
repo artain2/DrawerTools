@@ -38,7 +38,7 @@ namespace DrawerTools
 
         protected override void AtDraw()
         {
-            Value = (T)EditorGUILayout.EnumPopup(content, Value, Sizer.Options);
+            Value = (T)EditorGUILayout.EnumPopup(_guiContent, Value, Sizer.Options);
         }
     }
 

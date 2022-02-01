@@ -49,7 +49,7 @@ namespace DrawerTools
             }
             else
             {
-                Value = EditorGUILayout.IntField(content, Value, Sizer.Options);
+                Value = EditorGUILayout.IntField(_guiContent, Value, Sizer.Options);
             }
         }
 

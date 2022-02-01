@@ -42,13 +42,13 @@ namespace DrawerTools
 
         protected override void AtDraw()
         {
-            if (string.IsNullOrEmpty(content.text))
+            if (string.IsNullOrEmpty(_guiContent.text))
             {
                 Value = (T)EditorGUILayout.ObjectField(Value, typeof(T), allowSceneObjects, Sizer.Options); // Для спрайтов с контентом юнити рисует дичь
             }
             else
             {
-                Value = (T)EditorGUILayout.ObjectField(content, Value, typeof(T), allowSceneObjects, Sizer.Options);
+                Value = (T)EditorGUILayout.ObjectField(_guiContent, Value, typeof(T), allowSceneObjects, Sizer.Options);
             }
         }
 

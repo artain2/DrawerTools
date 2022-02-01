@@ -30,7 +30,7 @@ namespace DrawerTools
 
         protected override void AtDraw()
         {
-            Value = EditorGUILayout.Vector2Field(content, Value, Sizer.Options);
+            Value = EditorGUILayout.Vector2Field(_guiContent, Value, Sizer.Options);
         }
     }
 

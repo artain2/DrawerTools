@@ -29,7 +29,7 @@ namespace DrawerTools
 
         protected override void AtDraw()
         {
-            Value = (GameObject)EditorGUILayout.ObjectField(content, Value, typeof(GameObject), true, Sizer.Options);
+            Value = (GameObject)EditorGUILayout.ObjectField(_guiContent, Value, typeof(GameObject), true, Sizer.Options);
         }
     }
 }

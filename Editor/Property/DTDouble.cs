@@ -26,7 +26,7 @@ namespace DrawerTools
 
         protected override void AtDraw()
         {
-            Value = EditorGUILayout.DoubleField(content, Value, Sizer.Options);
+            Value = EditorGUILayout.DoubleField(_guiContent, Value, Sizer.Options);
         }
     }
 
