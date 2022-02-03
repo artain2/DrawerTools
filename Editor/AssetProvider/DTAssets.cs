@@ -113,36 +113,36 @@ namespace DrawerTools
 
         public static T LoadConfig<T>(string path) where T : Object
         {
-            if (!Path.HasExtension(path))
-            {
-                path += ".asset";
-            }
-
+            path = path.EndsWith(".asset") ? path : path + ".asset";
             var asset = AssetDatabase.LoadAssetAtPath<T>(path);
             return asset;
         }
 
         public static bool TryLoadConfig<T>(string path, out T result) where T : Object
         {
-            result = AssetDatabase.LoadAssetAtPath<T>($"{path}.asset");
+            path = path.EndsWith(".asset") ? path : path + ".asset";
+            result = AssetDatabase.LoadAssetAtPath<T>(path);
             return result != null;
         }
 
         public static bool HasSprite<T>(string path) where T : Object
         {
-            var asset = AssetDatabase.LoadAssetAtPath<T>($"{path}.png");
+            path = path.EndsWith(".png") ? path : path + ".png";
+            var asset = AssetDatabase.LoadAssetAtPath<T>(path);
             return asset != null;
         }
 
         public static T LoadSprite<T>(string path) where T : Object
         {
-            var asset = AssetDatabase.LoadAssetAtPath<T>($"{path}.png");
+            path = path.EndsWith(".png") ? path : path + ".png";
+            var asset = AssetDatabase.LoadAssetAtPath<T>(path);
             return asset;
         }
 
         public static bool TryLoadSprite<T>(string path, out T result) where T : Object
         {
-            result = AssetDatabase.LoadAssetAtPath<T>($"{path}.png");
+            path = path.EndsWith(".png") ? path : path + ".png";
+            result = AssetDatabase.LoadAssetAtPath<T>(path);
             return result != null;
         }
 
@@ -167,11 +167,7 @@ namespace DrawerTools
 
         public static void CreateConfig(string path, ScriptableObject source)
         {
-            if (!Path.HasExtension(path))
-            {
-                path += ".asset";
-            }
-
+            path = path.EndsWith(".asset") ? path : path + ".asset";
             AssetDatabase.CreateAsset(source, path);
         }
 

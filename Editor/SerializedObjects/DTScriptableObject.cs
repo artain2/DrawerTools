@@ -23,8 +23,14 @@ namespace DrawerTools
 
         public DTScriptableObject(T value)
         {
+            SetValue(value);
+        }
+
+        public DTScriptableObject<T> SetValue(T value)
+        {
             ScriptableObject = value;
             serObj = new SerializedObject(ScriptableObject);
+            return this;
         }
 
         public void DrawField(string fieldName, bool andUpdate = true)
