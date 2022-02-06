@@ -69,13 +69,14 @@ namespace DrawerTools
             return this;
         }
 
-        public void SerializeAll()
+        public DTScriptableObject<T> SerializeAll()
         {
             var fields = ScriptableObject.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
             var toSerialize = fields.
                 Where(x => x.IsPublic || x.GetAttribute<SerializeField>() != null).
                 Select(x=>x.Name).ToArray();
             SerializeField(toSerialize);
+            return this;
         }
 
         public bool HasField(string fieldName) => fieldsDict.ContainsKey(fieldName);
