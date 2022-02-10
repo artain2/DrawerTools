@@ -12,7 +12,11 @@ namespace DrawerTools
 
         public GUIStyle Style { get; protected set; } = new GUIStyle("Label");
 
-        public Color Color { get => Style.normal.textColor; set => SetColor(value); }
+        public Color Color
+        {
+            get => Style.normal.textColor;
+            set => SetColor(value);
+        }
 
         public DTLabel SetColor(Color col)
         {
@@ -20,9 +24,28 @@ namespace DrawerTools
             return this;
         }
 
-        public string Text { get => Name; set => Name = value; }
+        public DTLabel SetFontStyle(FontStyle style)
+        {
+            Style.fontStyle = style;
+            return this;
+        }
 
-        public DTLabel(string text) : base(text) { }
+        public DTLabel SetFontSize(int size)
+        {
+            Style.fontSize = size;
+            return this;
+        }
+
+        public string Text
+        {
+            get => Name;
+            set => Name = value;
+        }
+
+        public DTLabel(string text) : base(text)
+        {
+        }
+
         public DTLabel(string text, float width) : base(text)
         {
             SetWidth(width);

@@ -193,14 +193,16 @@ namespace DrawerTools
             return path.Substring(0, end);
         }
 
-        public static bool TryFindClassAsset(Type type, out TextAsset result)
+        public static bool TryFindClassAsset(Type type, out TextAsset result) =>
+            TryFindClassAsset(type.Name, out result);
+        public static bool TryFindClassAsset(string typeName, out TextAsset result)
         {
             result = null;
-            var classSearchFilter = $"class {type.Name}";
+            var classSearchFilter = $"class {typeName}";
             var allScriptPaths = AssetDatabase.GetAllAssetPaths().Where(x => x.EndsWith(".cs")).ToArray();
             
             // Certain match search
-            var matchFileName = $"{type.Name}.cs";
+            var matchFileName = $"{typeName}.cs";
             var csWithMatchName = allScriptPaths.FirstOrDefault(x => x.EndsWith(matchFileName));
             if (csWithMatchName!=null)
             {

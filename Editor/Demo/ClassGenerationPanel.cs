@@ -12,7 +12,7 @@ namespace DrawerTools.Demo
         private DTExpandToggle expand = new DTExpandToggle();
         private DTString _classNameDrawer;
         private DTString _namespaceDrawer;
-        private DTList<FieldDrawer> _fieldDrawers;
+        private DTListDrawer<FieldDrawer> _fieldDrawers;
         private DTString _preview = new DTString("");
 
         public ClassGenerationPanel(IDTPanel parent) : base(parent)
@@ -22,7 +22,7 @@ namespace DrawerTools.Demo
             _namespaceDrawer = new DTString("Namespace", "");
             _namespaceDrawer.AddChangeListener(UpdatePreview);
 
-            _fieldDrawers = new DTList<FieldDrawer>(this).SetName("Fields");
+            _fieldDrawers = new DTListDrawer<FieldDrawer>(this).SetName("Fields");
             _fieldDrawers.SetList(new List<FieldDrawer>(), CreateFieldDrawer);
             _fieldDrawers.OnListChange += UpdatePreview;
 
