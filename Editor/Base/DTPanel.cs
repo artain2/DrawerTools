@@ -57,20 +57,20 @@ namespace DrawerTools
             }
         }
 
-        protected DefaultPanelBehaviour<DTPanel> panelBeh;
+        protected DefaultPanelBehaviour<DTPanel> panelBehaviour;
 
         public DTPanel(IDTPanel parent) : base()
         {
-            panelBeh = new DefaultPanelBehaviour<DTPanel>(this, parent, AtSizeChanged);
+            panelBehaviour = new DefaultPanelBehaviour<DTPanel>(this, parent, AtSizeChanged);
         }
 
-        public IDTPanel Parent => panelBeh.Parent;
+        public IDTPanel Parent => panelBehaviour.Parent;
 
-        public Vector2 GetFixedSize(float? x = null, float? y = null) => panelBeh.GetFixedSize(x, y);
+        public Vector2 GetFixedSize(float? x = null, float? y = null) => panelBehaviour.GetFixedSize(x, y);
 
         public DTPanel SetExpandable(bool expandable)
         {
-            panelBeh.DrawScrollInExpand = expandable;
+            panelBehaviour.DrawScrollInExpand = expandable;
             return this;
         }
     }
